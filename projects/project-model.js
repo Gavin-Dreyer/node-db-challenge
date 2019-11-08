@@ -30,6 +30,7 @@ function findTasks() {
 	return db
 		.select(
 			'tasks.description as TaskDescription',
+			'tasks.completed as TaskCompletion',
 			'projects.name',
 			'projects.description as ProjectDescription'
 		)
