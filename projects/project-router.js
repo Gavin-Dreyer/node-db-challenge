@@ -14,6 +14,18 @@ router.get('/resources', (req, res) => {
 		});
 });
 
+router.post('/resources', (req, res) => {
+	const resource = req.body;
+
+	Projects.addResource(resource)
+		.then(resources => {
+			res.status(201).json({ created: resources[0] });
+		})
+		.catch(err => {
+			res.status(500).json({ message: 'Failed to add resource' });
+		});
+});
+
 router.get('/projects', (req, res) => {
 	Projects.findProjects()
 		.then(projects => {
@@ -24,6 +36,18 @@ router.get('/projects', (req, res) => {
 		});
 });
 
+router.post('/projects', (req, res) => {
+	const project = req.body;
+
+	Projects.addProject(project)
+		.then(project => {
+			res.status(201).json(project);
+		})
+		.catch(err => {
+			res.status(500).json({ message: 'Failed to add project' });
+		});
+});
+
 router.get('/tasks', (req, res) => {
 	Projects.findTasks()
 		.then(tasks => {
@@ -31,6 +55,18 @@ router.get('/tasks', (req, res) => {
 		})
 		.catch(err => {
 			res.status(500).json({ message: 'Failed to get tasks' });
+		});
+});
+
+router.post('/tasks', (req, res) => {
+	const task = req.body;
+
+	Projects.addTask(task)
+		.then(task => {
+			res.status(201).json(task);
+		})
+		.catch(err => {
+			res.status(500).json({ message: 'Failed to add task' });
 		});
 });
 

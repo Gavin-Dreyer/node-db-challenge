@@ -3,15 +3,26 @@ const db = require('../data/db-config.js');
 module.exports = {
 	findResources,
 	findProjects,
-	findTasks
+	findTasks,
+	addResource,
+	addProject,
+	addTask
 };
 
 function findResources() {
 	return db('resources');
 }
 
+function addResource(body) {
+	return db('resources').insert(body);
+}
+
 function findProjects() {
 	return db('projects');
+}
+
+function addProject(body) {
+	return db('projects').insert(body);
 }
 
 function findTasks() {
@@ -24,4 +35,8 @@ function findTasks() {
 		)
 		.from('tasks')
 		.join('projects', 'projects.id', '=', 'tasks.project_id');
+}
+
+function addTask(body) {
+	return db('tasks').insert(body);
 }
