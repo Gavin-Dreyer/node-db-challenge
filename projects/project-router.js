@@ -35,7 +35,7 @@ router.get('/projects', (req, res) => {
 					if (item.completed === 0) {
 						return (item.completed = false);
 					} else if (item.completed === 1) {
-						return (item.copmpleted = true);
+						return (item.completed = true);
 					} else {
 						return item;
 					}
@@ -43,8 +43,47 @@ router.get('/projects', (req, res) => {
 			];
 			projects = projects.slice(0, projects.length - 1);
 
-			console.log(projects);
 			res.json(projects);
+		})
+		.catch(err => {
+			res.status(500).json({ message: 'Failed to get projects' });
+		});
+});
+
+router.get('/projects/:id', (req, res) => {
+	Projects.findProjectById(req.params.id)
+		.then(projects => {
+			projects = [
+				...projects,
+				projects.map(item => {
+					if (item.completed === 0) {
+						return (item.completed = false);
+					} else if (item.completed === 1) {
+						return (item.completed = true);
+					} else {
+						return item;
+					}
+				})
+			];
+			projects = projects.slice(0, projects.length - 1);
+			let tasks = [];
+			projects.map(item => {
+				if (item.tasks === item.tasks) {
+					return (tasks = [...tasks, { description: item.tasks }]);
+				}
+			});
+			console.log(tasks);
+			projects = [
+				...projects,
+				projects.map(item => {
+					if (item.tasks === item.tasks) {
+						item.tasks = tasks;
+					}
+				})
+			];
+
+			console.log(projects);
+			res.json(projects[0]);
 		})
 		.catch(err => {
 			res.status(500).json({ message: 'Failed to get projects' });
@@ -80,7 +119,30 @@ router.get('/tasks', (req, res) => {
 			];
 			tasks = tasks.slice(0, tasks.length - 1);
 
-			console.log(tasks);
+			res.json(tasks);
+		})
+		.catch(err => {
+			res.status(500).json({ message: 'Failed to get tasks' });
+		});
+});
+
+router.get('/tasks/:id', (req, res) => {
+	Projects.findTaskById(req.params.id)
+		.then(tasks => {
+			tasks = [
+				...tasks,
+				tasks.map(item => {
+					if (item.TaskCompletion === 0) {
+						return (item.TaskCompletion = false);
+					} else if (item.TaskCompletion === 1) {
+						return (item.TaskCopmpletion = true);
+					} else {
+						return item;
+					}
+				})
+			];
+			tasks = tasks.slice(0, tasks.length - 1);
+
 			res.json(tasks);
 		})
 		.catch(err => {
